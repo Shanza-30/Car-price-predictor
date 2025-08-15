@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Price Prediction</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #f0f4f7, #d9e2ec);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #1f77b4;
+            margin-bottom: 25px;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .form-group {
+            flex: 1 1 45%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        input[type="number"], select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: linear-gradient(90deg, #28a745, #218838);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #218838, #1e7e34);
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f1f8ff;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+        }
+        .lr {
+            color: #1f77b4;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .rf {
+            color: #ff7f0e;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .form-group {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Car Price Prediction</h2>
+        <form method="POST" action="/predict">
+
+            <!-- Column layout -->
+            <div class="form-group">
+                <label>Company:</label>
+                <select name="Company" required>
+                    {% for company in companies %}
+                        <option value="{{ company }}">{{ company }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Fuel Type:</label>
+                <select name="Fuel_Type" required>
+                    {% for fuel in fuels %}
+                        <option value="{{ fuel }}">{{ fuel }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Transmission:</label>
+                <select name="Transmission" required>
+                    {% for t in transmissions %}
+                        <option value="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Owner Type:</label>
+                <select name="Owner_Type" required>
+                    {% for o in owners %}
+                        <option value="{{ o }}">{{ o }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Drivetrain:</label>
+                <select name="Drivetrain" required>
+                    {% for d in drivetrains %}
+                        <option value="{{ d }}">{{ d }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Body Type:</label>
+                <select name="Body_Type" required>
+                    {% for b in body_types %}
+                        <option value="{{ b }}">{{ b }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Color:</label>
+                <select name="Color" required>
+                    {% for c in colors %}
+                        <option value="{{ c }}">{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Seats Material:</label>
+                <select name="Seats_Material" required>
+                    {% for s in seat_materials %}
+                        <option value="{{ s }}">{{ s }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Numeric inputs in 2-column -->
+            <div class="form-group"><label>Year:</label><input type="number" step="any" name="Year" required></div>
+            <div class="form-group"><label>Mileage:</label><input type="number" step="any" name="Mileage" required></div>
+            <div class="form-group"><label>Engine CC:</label><input type="number" step="any" name="Engine" required></div>
+            <div class="form-group"><label>Max Power:</label><input type="number" step="any" name="Max_Power" required></div>
+            <div class="form-group"><label>Seats:</label><input type="number" step="any" name="Seats" required></div>
+            <div class="form-group"><label>Length:</label><input type="number" step="any" name="Length" required></div>
+            <div class="form-group"><label>Width:</label><input type="number" step="any" name="Width" required></div>
+            <div class="form-group"><label>Height:</label><input type="number" step="any" name="Height" required></div>
+            <div class="form-group"><label>Wheelbase:</label><input type="number" step="any" name="Wheelbase" required></div>
+            <div class="form-group"><label>Fuel Capacity:</label><input type="number" step="any" name="Fuel_Capacity" required></div>
+            <div class="form-group"><label>Boot Space:</label><input type="number" step="any" name="Boot_Space" required></div>
+            <div class="form-group"><label>Ground Clearance:</label><input type="number" step="any" name="Ground_Clearance" required></div>
+            <div class="form-group"><label>Curb Weight:</label><input type="number" step="any" name="Curb_Weight" required></div>
+            <div class="form-group"><label>Gross Weight:</label><input type="number" step="any" name="Gross_Weight" required></div>
+            <div class="form-group"><label>Top Speed:</label><input type="number" step="any" name="Top_Speed" required></div>
+            <div class="form-group"><label>Acceleration:</label><input type="number" step="any" name="Acceleration" required></div>
+            <div class="form-group"><label>Torque:</label><input type="number" step="any" name="Torque" required></div>
+            <div class="form-group"><label>Fuel Economy City:</label><input type="number" step="any" name="Fuel_Economy_City" required></div>
+            <div class="form-group"><label>Fuel Economy Highway:</label><input type="number" step="any" name="Fuel_Economy_Highway" required></div>
+            <div class="form-group"><label>CO2 Emissions:</label><input type="number" step="any" name="CO2_Emissions" required></div>
+            <div class="form-group"><label>Safety Rating:</label><input type="number" step="any" name="Safety_Rating" required></div>
+            <div class="form-group"><label>Airbags:</label><input type="number" step="any" name="Airbags" required></div>
+            <div class="form-group"><label>ABS:</label><input type="number" step="any" name="ABS" required></div>
+            <div class="form-group"><label>Sunroof:</label><input type="number" step="any" name="Sunroof" required></div>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if linear_result %}
+        <div class="result">
+            <div class="lr">Linear Regression Prediction: {{ linear_result }}</div>
+            <div class="rf">Random Forest Prediction: {{ rf_result }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

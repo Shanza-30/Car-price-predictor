@@ -1,6 +1,7 @@
 # 🚗 Car Price Prediction Web Application using Machine Learning
 
-This project is an **interactive machine learning–powered web application** that predicts **car prices** based on a wide range of vehicle attributes. By combining **Linear Regression** and **Random Forest Regressor**, the system delivers reliable and accurate price estimates, making it useful for **car buyers, sellers, and automotive enthusiasts**.
+This project is an **interactive machine learning–powered web application** that predicts **car prices** based on a wide range of vehicle attributes.
+By combining **Linear Regression** and **Random Forest Regressor**, the system delivers reliable and accurate price estimates, making it useful for **car buyers, sellers, and automotive enthusiasts**.
 
 
 ## 🎯 Project Overview
